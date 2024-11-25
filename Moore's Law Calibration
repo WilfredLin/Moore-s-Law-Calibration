@@ -1,0 +1,28 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Sample data for transistors on a chip over the years
+years = np.array([1971, 1974, 1978, 1982, 1985, 1989, 1993, 1997, 2002, 2006, 2012])
+transistors = np.array([2300, 6000, 29000, 275000, 1180000, 3100000, 7500000, 250000000, 2300000000, 5000000000, 50000000000])
+
+# Fit a logarithmic model to the data
+log_transistors = np.log(transistors)
+coefficients = np.polyfit(years, log_transistors, 1)
+poly = np.poly1d(coefficients)
+
+# Generate years for predictions
+prediction_years = np.arange(1971, 2025)
+predicted_log_transistors = poly(prediction_years)
+predicted_transistors = np.exp(predicted_log_transistors)
+
+# Plotting the data and the fit
+plt.figure(figsize=(10, 6))
+plt.scatter(years, transistors, color='blue', label='Actual Data')
+plt.plot(prediction_years, predicted_transistors, color='red', label='Predicted Growth')
+plt.yscale('log')
+plt.title("Calibration of Moore's Law")
+plt.xlabel('Year')
+plt.ylabel('Number of Transistors (log scale)')
+plt.legend()
+plt.grid(True)
+plt.show()
